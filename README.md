@@ -2,7 +2,7 @@
 ---
 # Agricultural Extension RAG: Smart Retrieval for Farmers
 
-An information retrieval and re-ranking pipeline designed to retrieve context-aware, highly relevant agricultural extension advisories in response to farmer queries.
+An information retrieval and re-ranking pipeline designed to retrieve context-aware agricultural extension advisories in response to farmer queries. This project was chosen based on voting from list that the team felt that they can handle and relevant for the study.
 
 ---
 
@@ -13,7 +13,7 @@ The dataset is sourced from the Kaggle competition:
 (`path: /kaggle/input/competitions/agricultural-extension-rag-smart-retrieval-for-farmers/`)
 
 ### Corpus Dimensions & Properties
-* **Documents Corpus (`documents`):** 695 advisory records structured across 11 tabular and textual features (e.g., crop type, disease/pest symptoms, agricultural guidance, intervention instructions).
+* **Documents Corpus (`documents`):** 695 advisory records structured across 11 tabular and textual features mainly, crop type, disease/pest symptoms, agricultural guidance, intervention instructions.
 * **Train Queries:** 308 queries representing real-world farmer questions and symptom descriptions.
 * **Ground Truth (`qrels_train`):** 4,194 labeled relevance pairs mapping queries to relevant advisory documents.
 * **Test Queries:** 200 unseen queries evaluated on top-$k$ document retrieval.
@@ -31,15 +31,16 @@ The dataset is sourced from the Kaggle competition:
 ## 2. Training Pipeline
 
 ### Preprocessing & Passage Synthesis
-* **Feature Serialization:** Metadata attributes and advisory bodies are concatenated into formatted textual units using field tags (`Title: ... | Crop: ... | Recommendation: ...`) to maximize retrieval match surfaces.
-* **Text Normalization:** Queries and document contents undergo lowercasing, whitespace stripping, punctuation normalization, and technical term standardization.
+* **Feature Engineering and selection:** Metadata attributes and advisory bodies are concatenated into formatted textual units using field tags to maximize retrieval match surfaces.
+* **Text Normalization:** Queries and document contents went lowercasing, whitespace stripping, punctuation normalization, and standardization of technical terms.
 
 ### Query Partitioning (Zero-Leakage Design)
-To prevent data contamination, queries are partitioned at the query-ID level:
+To prevent data leakage, queries are partitioned at the query-ID level:
 * **Tuning Set:** 231 queries (75%) used for index calibration and parameter tuning.
 * **Holdout Validation Set:** 77 queries (25%) strictly isolated for untouched local performance benchmarking.
 
-### Model Configurations & Key Design Choices
+### Model Configurations and Key Design Choices
+The models were chosen mainly based on the cometition guidlines and also with further review of the relevance to the study.
 1. **Lexical Retrieval Models:**
    * **TF-IDF:** Fitted using sublinear term-frequency scaling and unigram/bigram tokenization.
    * **BM25 Okapi:** Calibrated parameters ($k_1=1.5, b=0.75$) targeting exact matches on specialized agricultural terms, chemical treatments, and local crop varieties.
@@ -90,7 +91,7 @@ python src/generate_submission.py \
     --output_file ./submission.csv
 
     
-##  ## Appendix: Contributors
+##  5. Appendix: Contributors
 ### Team Members
 1. Ajayi Oluwadamilare
 2. Akpo Patricia Uyeh
